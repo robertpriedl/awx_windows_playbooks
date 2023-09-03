@@ -1,0 +1,35 @@
+---
+- name: configure windows baseline
+  hosts: windowsserver
+  gather_facts: yes
+  
+  tasks:
+  - name: create new localadmin with password
+    ansible.windows.win_user:
+      name: localadmin
+      password: "{{localadminPassword}}"
+      state: present
+      groups:
+        - Administrators
+  
+  - name: enable RDP
+    ansible.builtin.win_regedit:
+      path: HKLM:\System\CurrentControlSet\Control\Terminal Server
+      name: fDenyTSConnections
+      data: 0x00000000
+      type: dword
+      state: present
+
+  - name: Set service startup to auto
+    ansible.builtin.win_service:
+      name: TermService
+      state: started
+
+  - name: Allow RDP In in win firewall
+    community.windows.win_firewall_rule:
+      name: Remote Desktop
+      localport: 3389
+      action: allow
+      direction: in
+      protocol: tcp
+      enabled: yes
