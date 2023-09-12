@@ -12,6 +12,9 @@
       groups:
         - Administrators
   
+  - name: debug password
+    ansible.builtin.debug:
+      msg: "password is {{localadminPassword}}"
   - name: enable RDP
     ansible.builtin.win_regedit:
       path: HKLM:\System\CurrentControlSet\Control\Terminal Server
