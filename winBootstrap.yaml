@@ -1,6 +1,6 @@
 ---
 - name: configure windows baseline
-  hosts: windowsserver
+  hosts: all
   gather_facts: yes
   
   tasks:
