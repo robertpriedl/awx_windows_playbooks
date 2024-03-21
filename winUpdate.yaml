@@ -7,3 +7,7 @@
   - name: Install all security updates with automatic reboots
     win_updates:
       reboot: yes
+  - name: Upgrade installed packages
+    win_chocolatey:
+      name: all
+      state: latest
